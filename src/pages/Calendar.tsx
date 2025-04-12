@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
 import { useAppDispatch } from '@/redux/hooks';
 import { fetchEvents } from '@/redux/slices/eventsSlice';
 import { fetchGoalsApi } from '@/services/api';
@@ -9,10 +8,28 @@ import CalendarGrid from '@/components/calendar/CalendarGrid';
 import EventModal from '@/components/calendar/EventModal';
 import Sidebar from '@/components/sidebar/Sidebar';
 import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 
 const Calendar = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
+  
+  // Check Supabase connection
+  useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const { data } = await supabase.from('_test_connection').select('*').limit(1);
+        setIsConnected(true);
+        toast.success('Connected to database successfully');
+      } catch (error) {
+        console.error('Supabase connection error:', error);
+        toast.error('Failed to connect to database. Using fallback data.');
+      }
+    };
+    
+    checkConnection();
+  }, []);
   
   useEffect(() => {
     const fetchAllData = async () => {
@@ -49,6 +66,11 @@ const Calendar = () => {
   
   return (
     <div className="h-screen flex flex-col">
+      {!isConnected && (
+        <div className="bg-yellow-100 p-2 text-yellow-800 text-center text-sm">
+          Using demo data. Connect to Supabase for persistent storage.
+        </div>
+      )}
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <div className="flex-1 overflow-auto">
