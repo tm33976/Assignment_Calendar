@@ -39,32 +39,32 @@ export const fetchEvents = createAsyncThunk('events/fetchEvents', async () => {
     {
       _id: '1',
       title: 'Monday Wake-Up',
-      category: 'exercise',
+      category: 'exercise' as const,
       start: '2025-04-08T06:00:00',
       end: '2025-04-08T06:30:00',
     },
     {
       _id: '2',
       title: 'All-Team Kickoff',
-      category: 'work',
+      category: 'work' as const,
       start: '2025-04-08T09:00:00',
       end: '2025-04-08T10:00:00',
     },
     {
       _id: '3',
       title: 'Coffee Chat',
-      category: 'social',
+      category: 'social' as const,
       start: '2025-04-10T09:00:00',
       end: '2025-04-10T09:30:00',
     },
     {
       _id: '4',
       title: 'Design Review',
-      category: 'work',
+      category: 'work' as const,
       start: '2025-04-08T13:00:00',
       end: '2025-04-08T14:00:00',
     },
-  ];
+  ] as Event[];
 });
 
 export const createEvent = createAsyncThunk(

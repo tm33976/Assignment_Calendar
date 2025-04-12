@@ -39,10 +39,10 @@ const Sidebar = () => {
         mode: 'create',
         initialData: {
           title: taskName,
-          category: 'work', // Default category
+          category: 'work' as const, // Specify the type
           start: roundedStartTime.toISOString(),
           end: endTime.toISOString(),
-          taskId: taskId,
+          taskId: taskId, // This is now correctly typed
         }
       }));
     }
