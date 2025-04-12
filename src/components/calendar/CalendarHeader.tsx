@@ -103,6 +103,9 @@ const CalendarHeader = ({ weekDays }: CalendarHeaderProps) => {
             <div className="text-2xl font-bold">
               {format(day, 'd')}
             </div>
+            <div className="text-xs text-gray-500">
+              {format(day, 'MMM yyyy')}
+            </div>
           </div>
         ))}
       </div>

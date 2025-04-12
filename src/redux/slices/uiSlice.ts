@@ -16,6 +16,8 @@ interface EventModalState {
     category?: string;
     start?: string;
     end?: string;
+    taskId?: string;
+    goalId?: string;
   };
 }
 
