@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Category colors
+				category: {
+					exercise: '#FF5733',
+					eating: '#33FF57',
+					work: '#3357FF',
+					relax: '#57FFDE',
+					family: '#DE57FF',
+					social: '#FFDE57',
+				},
+				// Goal colors
+				goal: {
+					fit: '#FF5733',
+					academics: '#3357FF',
+					learn: '#8B5CF6',
+					sports: '#33FF57',
 				}
 			},
 			borderRadius: {
