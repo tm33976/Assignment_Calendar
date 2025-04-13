@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '@/redux/hooks';
 import { fetchEvents } from '@/redux/slices/eventsSlice';
-import { fetchGoalsApi } from '@/services/api';
-import { fetchTasksApi } from '@/services/api';
+import { fetchGoals } from '@/redux/slices/goalsSlice';
+import { fetchTasks } from '@/redux/slices/tasksSlice';
 import CalendarGrid from '@/components/calendar/CalendarGrid';
 import EventModal from '@/components/calendar/EventModal';
 import Sidebar from '@/components/sidebar/Sidebar';
@@ -38,8 +38,8 @@ const Calendar = () => {
         // Fetch events, goals, and tasks in parallel
         await Promise.all([
           dispatch(fetchEvents()).unwrap(),
-          fetchGoalsApi(),
-          fetchTasksApi()
+          dispatch(fetchGoals()).unwrap(),
+          dispatch(fetchTasks()).unwrap()
         ]);
         toast.success('Calendar data loaded successfully');
       } catch (error) {

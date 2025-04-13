@@ -9,7 +9,113 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      _test_connection: {
+        Row: {
+          created_at: string | null
+          id: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          category: string
+          created_at: string | null
+          end_time: string
+          goal_id: string | null
+          id: string
+          start_time: string
+          task_id: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          end_time: string
+          goal_id?: string | null
+          id?: string
+          start_time: string
+          task_id?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          end_time?: string
+          goal_id?: string | null
+          id?: string
+          start_time?: string
+          task_id?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      goals: {
+        Row: {
+          color: string
+          created_at: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          color: string
+          created_at?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          color?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          created_at: string | null
+          goal_id: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          goal_id?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          goal_id?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
