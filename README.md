@@ -273,6 +273,4 @@ This project leverages several open source libraries and tools:
 - [TanStack React Query](https://tanstack.com/query) - Data fetching and caching
 
 
-#   A s s i g n m e n t _ C a l e n d a r 
- 
- 
+#
