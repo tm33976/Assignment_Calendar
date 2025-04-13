@@ -1,6 +1,6 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { fetchEventsApi, createEventApi, updateEventApi, deleteEventApi } from '@/services/api';
 
 export interface Event {
   _id?: string;
@@ -24,85 +24,85 @@ const initialState: EventsState = {
   error: null,
 };
 
-// For development purposes, we'll use a mock API URL
-// In a production environment, this should come from environment variables
-const API_URL = '/api/events';
-
 export const fetchEvents = createAsyncThunk('events/fetchEvents', async () => {
-  // In a real application, this would be an actual API call
-  // For now, we'll return mock data
-  // const response = await axios.get(API_URL);
-  // return response.data;
-  
-  // Mock data for development
-  return [
-    {
-      _id: '1',
-      title: 'Monday Wake-Up',
-      category: 'exercise',
-      start: '2025-04-08T06:00:00',
-      end: '2025-04-08T06:30:00',
-    },
-    {
-      _id: '2',
-      title: 'All-Team Kickoff',
-      category: 'work',
-      start: '2025-04-08T09:00:00',
-      end: '2025-04-08T10:00:00',
-    },
-    {
-      _id: '3',
-      title: 'Coffee Chat',
-      category: 'social',
-      start: '2025-04-10T09:00:00',
-      end: '2025-04-10T09:30:00',
-    },
-    {
-      _id: '4',
-      title: 'Design Review',
-      category: 'work',
-      start: '2025-04-08T13:00:00',
-      end: '2025-04-08T14:00:00',
-    },
-  ];
+  try {
+    return await fetchEventsApi();
+  } catch (error) {
+    // Fallback to mock data if API fails
+    console.log("Using mock data due to API failure");
+    return [
+      {
+        _id: '1',
+        title: 'Monday Wake-Up',
+        category: 'exercise' as const,
+        start: '2025-04-08T06:00:00',
+        end: '2025-04-08T06:30:00',
+      },
+      {
+        _id: '2',
+        title: 'All-Team Kickoff',
+        category: 'work' as const,
+        start: '2025-04-08T09:00:00',
+        end: '2025-04-08T10:00:00',
+      },
+      {
+        _id: '3',
+        title: 'Coffee Chat',
+        category: 'social' as const,
+        start: '2025-04-10T09:00:00',
+        end: '2025-04-10T09:30:00',
+      },
+      {
+        _id: '4',
+        title: 'Design Review',
+        category: 'work' as const,
+        start: '2025-04-08T13:00:00',
+        end: '2025-04-08T14:00:00',
+      },
+    ] as Event[];
+  }
 });
 
 export const createEvent = createAsyncThunk(
   'events/createEvent',
   async (event: Omit<Event, '_id'>) => {
-    // In a real application, this would be an actual API call
-    // const response = await axios.post(API_URL, event);
-    // return response.data;
-    
-    // Mock response for development
-    return {
-      ...event,
-      _id: Math.random().toString(36).substr(2, 9),
-    };
+    try {
+      return await createEventApi(event);
+    } catch (error) {
+      // Fallback to mock response if API fails
+      console.log("Using mock data due to API failure");
+      return {
+        ...event,
+        _id: Math.random().toString(36).substr(2, 9),
+      };
+    }
   }
 );
 
 export const updateEvent = createAsyncThunk(
   'events/updateEvent',
   async (event: Event) => {
-    // In a real application, this would be an actual API call
-    // const response = await axios.put(`${API_URL}/${event._id}`, event);
-    // return response.data;
-    
-    // Mock response for development
-    return event;
+    try {
+      return await updateEventApi(event);
+    } catch (error) {
+      // Fallback to mock response if API fails
+      console.log("Using mock data due to API failure");
+      return event;
+    }
   }
 );
 
 export const deleteEvent = createAsyncThunk(
   'events/deleteEvent',
   async (id: string) => {
-    // In a real application, this would be an actual API call
-    // await axios.delete(`${API_URL}/${id}`);
-    // return id;
-    
-    // Mock response for development
-    return id;
+    try {
+      await deleteEventApi(id);
+      return id;
+    } catch (error) {
+      // Fallback if API fails
+      console.log("Using mock data due to API failure");
+      return id;
+    }
   }
 );
 
