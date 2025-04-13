@@ -50,7 +50,7 @@ const Sidebar = () => {
   
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="w-64 h-full bg-slate-50 p-5 overflow-y-auto border-r shadow-sm">
+      <div className="w-64 h-full bg-gray-100 p-4 overflow-y-auto border-r">
         <GoalsList />
         <TasksList />
       </div>
