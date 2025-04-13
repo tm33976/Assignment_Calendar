@@ -7,13 +7,16 @@ import { fetchTasksApi } from '@/services/api';
 import CalendarGrid from '@/components/calendar/CalendarGrid';
 import EventModal from '@/components/calendar/EventModal';
 import Sidebar from '@/components/sidebar/Sidebar';
+import UserMenu from '@/components/UserMenu';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Calendar = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
+  const { user } = useAuth();
   
   // Check Supabase connection
   useEffect(() => {
@@ -33,6 +36,8 @@ const Calendar = () => {
   
   useEffect(() => {
     const fetchAllData = async () => {
+      if (!user) return;
+      
       setIsLoading(true);
       try {
         // Fetch events, goals, and tasks in parallel
@@ -51,7 +56,7 @@ const Calendar = () => {
     };
     
     fetchAllData();
-  }, [dispatch]);
+  }, [dispatch, user]);
   
   if (isLoading) {
     return (
@@ -66,11 +71,17 @@ const Calendar = () => {
   
   return (
     <div className="h-screen flex flex-col">
+      <div className="bg-primary p-2 flex justify-between items-center text-primary-foreground">
+        <h1 className="text-xl font-bold">Calendar App</h1>
+        <UserMenu />
+      </div>
+      
       {!isConnected && (
         <div className="bg-yellow-100 p-2 text-yellow-800 text-center text-sm">
           Using demo data. Connect to Supabase for persistent storage.
         </div>
       )}
+      
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <div className="flex-1 overflow-auto">

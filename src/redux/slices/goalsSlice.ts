@@ -1,6 +1,6 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { fetchGoalsApi, createGoalApi, updateGoalApi, deleteGoalApi } from '@/services/api';
 
 export interface Goal {
   _id: string;
@@ -22,18 +22,41 @@ const initialState: GoalsState = {
   error: null,
 };
 
-// Mock API URL
-const API_URL = '/api/goals';
-
 export const fetchGoals = createAsyncThunk('goals/fetchGoals', async () => {
-  // Mock response for development
-  return [
-    { _id: '1', name: 'Be fit', color: 'bg-goal-fit' },
-    { _id: '2', name: 'Academics', color: 'bg-goal-academics' },
-    { _id: '3', name: 'LEARN', color: 'bg-goal-learn' },
-    { _id: '4', name: 'Sports', color: 'bg-goal-sports' },
-  ];
+  try {
+    return await fetchGoalsApi();
+  } catch (error) {
+    // Mock response for development if API fails
+    return [
+      { _id: '1', name: 'Be fit', color: 'bg-goal-fit' },
+      { _id: '2', name: 'Academics', color: 'bg-goal-academics' },
+      { _id: '3', name: 'LEARN', color: 'bg-goal-learn' },
+      { _id: '4', name: 'Sports', color: 'bg-goal-sports' },
+    ];
+  }
 });
+
+export const createGoal = createAsyncThunk(
+  'goals/createGoal',
+  async (goal: Omit<Goal, '_id'>) => {
+    return await createGoalApi(goal);
+  }
+);
+
+export const updateGoal = createAsyncThunk(
+  'goals/updateGoal',
+  async (goal: Goal) => {
+    return await updateGoalApi(goal);
+  }
+);
+
+export const deleteGoal = createAsyncThunk(
+  'goals/deleteGoal',
+  async (id: string) => {
+    await deleteGoalApi(id);
+    return id;
+  }
+);
 
 const goalsSlice = createSlice({
   name: 'goals',
@@ -58,6 +81,21 @@ const goalsSlice = createSlice({
       .addCase(fetchGoals.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to fetch goals';
+      })
+      .addCase(createGoal.fulfilled, (state, action: PayloadAction<Goal>) => {
+        state.goals.push(action.payload);
+      })
+      .addCase(updateGoal.fulfilled, (state, action: PayloadAction<Goal>) => {
+        const index = state.goals.findIndex(goal => goal._id === action.payload._id);
+        if (index !== -1) {
+          state.goals[index] = action.payload;
+        }
+      })
+      .addCase(deleteGoal.fulfilled, (state, action: PayloadAction<string>) => {
+        state.goals = state.goals.filter(goal => goal._id !== action.payload);
+        if (state.selectedGoalId === action.payload) {
+          state.selectedGoalId = null;
+        }
       });
   },
 });

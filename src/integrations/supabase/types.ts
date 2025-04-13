@@ -35,6 +35,7 @@ export type Database = {
           task_id: string | null
           title: string
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           category: string
@@ -46,6 +47,7 @@ export type Database = {
           task_id?: string | null
           title: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           category?: string
@@ -57,6 +59,7 @@ export type Database = {
           task_id?: string | null
           title?: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -67,6 +70,7 @@ export type Database = {
           id: string
           name: string
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           color: string
@@ -74,6 +78,7 @@ export type Database = {
           id?: string
           name: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           color?: string
@@ -81,6 +86,31 @@ export type Database = {
           id?: string
           name?: string
           updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -91,6 +121,7 @@ export type Database = {
           id: string
           name: string
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string | null
@@ -98,6 +129,7 @@ export type Database = {
           id?: string
           name: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string | null
@@ -105,6 +137,7 @@ export type Database = {
           id?: string
           name?: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
