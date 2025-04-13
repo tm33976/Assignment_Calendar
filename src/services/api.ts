@@ -14,11 +14,12 @@ export const fetchEventsApi = async (): Promise<Event[]> => {
       
     if (error) throw error;
     
-    // Map database fields to our app's expected format
+    // Map database fields to our app's expected format with proper category typing
     return (data || []).map(item => ({
       _id: item.id,
       title: item.title,
-      category: item.category,
+      // Cast the category string to the specific union type
+      category: item.category as "exercise" | "eating" | "work" | "relax" | "family" | "social",
       start: item.start_time,
       end: item.end_time,
       goalId: item.goal_id,
@@ -57,7 +58,8 @@ export const createEventApi = async (event: Omit<Event, '_id'>): Promise<Event> 
     return {
       _id: data.id,
       title: data.title,
-      category: data.category,
+      // Cast the category to ensure it matches the expected type
+      category: data.category as "exercise" | "eating" | "work" | "relax" | "family" | "social",
       start: data.start_time,
       end: data.end_time,
       goalId: data.goal_id,
@@ -94,7 +96,8 @@ export const updateEventApi = async (event: Event): Promise<Event> => {
     return {
       _id: data.id,
       title: data.title,
-      category: data.category,
+      // Cast the category to ensure it matches the expected type
+      category: data.category as "exercise" | "eating" | "work" | "relax" | "family" | "social",
       start: data.start_time,
       end: data.end_time,
       goalId: data.goal_id,
