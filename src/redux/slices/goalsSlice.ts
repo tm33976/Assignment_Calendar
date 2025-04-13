@@ -1,6 +1,6 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { fetchGoalsApi, createGoalApi, updateGoalApi, deleteGoalApi } from '@/services/api';
+import axios from 'axios';
 
 export interface Goal {
   _id: string;
@@ -22,63 +22,18 @@ const initialState: GoalsState = {
   error: null,
 };
 
+// Mock API URL
+const API_URL = '/api/goals';
+
 export const fetchGoals = createAsyncThunk('goals/fetchGoals', async () => {
-  try {
-    return await fetchGoalsApi();
-  } catch (error) {
-    // Mock response for development if API fails
-    console.log("Using mock data due to API failure");
-    return [
-      { _id: '1', name: 'Be fit', color: 'bg-goal-fit' },
-      { _id: '2', name: 'Academics', color: 'bg-goal-academics' },
-      { _id: '3', name: 'LEARN', color: 'bg-goal-learn' },
-      { _id: '4', name: 'Sports', color: 'bg-goal-sports' },
-    ];
-  }
+  // Mock response for development
+  return [
+    { _id: '1', name: 'Be fit', color: 'bg-goal-fit' },
+    { _id: '2', name: 'Academics', color: 'bg-goal-academics' },
+    { _id: '3', name: 'LEARN', color: 'bg-goal-learn' },
+    { _id: '4', name: 'Sports', color: 'bg-goal-sports' },
+  ];
 });
-
-export const createGoal = createAsyncThunk(
-  'goals/createGoal',
-  async (goal: Omit<Goal, '_id'>) => {
-    try {
-      return await createGoalApi(goal);
-    } catch (error) {
-      // Fallback to mock response if API fails
-      console.log("Using mock data due to API failure");
-      return {
-        ...goal,
-        _id: Math.random().toString(36).substr(2, 9),
-      } as Goal;
-    }
-  }
-);
-
-export const updateGoal = createAsyncThunk(
-  'goals/updateGoal',
-  async (goal: Goal) => {
-    try {
-      return await updateGoalApi(goal);
-    } catch (error) {
-      // Fallback to mock response if API fails
-      console.log("Using mock data due to API failure");
-      return goal;
-    }
-  }
-);
-
-export const deleteGoal = createAsyncThunk(
-  'goals/deleteGoal',
-  async (id: string) => {
-    try {
-      await deleteGoalApi(id);
-      return id;
-    } catch (error) {
-      // Fallback if API fails
-      console.log("Using mock data due to API failure");
-      return id;
-    }
-  }
-);
 
 const goalsSlice = createSlice({
   name: 'goals',
@@ -103,18 +58,6 @@ const goalsSlice = createSlice({
       .addCase(fetchGoals.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to fetch goals';
-      })
-      .addCase(createGoal.fulfilled, (state, action: PayloadAction<Goal>) => {
-        state.goals.push(action.payload);
-      })
-      .addCase(updateGoal.fulfilled, (state, action: PayloadAction<Goal>) => {
-        const index = state.goals.findIndex((g) => g._id === action.payload._id);
-        if (index !== -1) {
-          state.goals[index] = action.payload;
-        }
-      })
-      .addCase(deleteGoal.fulfilled, (state, action: PayloadAction<string>) => {
-        state.goals = state.goals.filter((g) => g._id !== action.payload);
       });
   },
 });
