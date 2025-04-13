@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchGoals, setSelectedGoal } from '@/redux/slices/goalsSlice';
 import { fetchTasksByGoalId } from '@/redux/slices/tasksSlice';
 import { getGoalColor, getGoalTextColor } from '@/utils/colorUtils';
-import { Home, GraduationCap, BookOpen, Trophy } from 'lucide-react';
+import { Home, Graduation, BookOpen, Trophy } from 'lucide-react';
 
 const GoalsList = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ const GoalsList = () => {
       case '1': // Be fit
         return <Home className="w-4 h-4 mr-2" />;
       case '2': // Academics
-        return <GraduationCap className="w-4 h-4 mr-2" />;
+        return <Graduation className="w-4 h-4 mr-2" />;
       case '3': // LEARN
         return <BookOpen className="w-4 h-4 mr-2" />;
       case '4': // Sports
