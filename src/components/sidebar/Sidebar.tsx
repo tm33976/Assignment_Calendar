@@ -5,6 +5,10 @@ import { openEventModal } from '@/redux/slices/uiSlice';
 import GoalsList from './GoalsList';
 import TasksList from './TasksList';
 import { roundToNearestQuarter } from '@/utils/dateUtils';
+import {
+  Sidebar as ShadcnSidebar,
+  SidebarContent,
+} from '@/components/ui/sidebar';
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -50,10 +54,14 @@ const Sidebar = () => {
   
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="w-64 h-full bg-gray-100 p-4 overflow-y-auto border-r">
-        <GoalsList />
-        <TasksList />
-      </div>
+      <ShadcnSidebar collapsible="offcanvas" className="w-64 bg-white border-r">
+        <SidebarContent>
+          <div className="flex flex-col h-full px-2 py-4 overflow-y-auto">
+            <GoalsList />
+            <TasksList />
+          </div>
+        </SidebarContent>
+      </ShadcnSidebar>
     </DragDropContext>
   );
 };

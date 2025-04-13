@@ -11,6 +11,7 @@ import UserMenu from '@/components/UserMenu';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 const Calendar = () => {
   const dispatch = useAppDispatch();
@@ -70,26 +71,28 @@ const Calendar = () => {
   }
   
   return (
-    <div className="h-screen flex flex-col">
-      <div className="bg-primary p-2 flex justify-between items-center text-primary-foreground">
-        <h1 className="text-xl font-bold">Calendar App</h1>
-        <UserMenu />
-      </div>
-      
-      {!isConnected && (
-        <div className="bg-yellow-100 p-2 text-yellow-800 text-center text-sm">
-          Using demo data. Connect to Supabase for persistent storage.
+    <SidebarProvider>
+      <div className="h-screen flex flex-col">
+        <div className="bg-primary p-2 flex justify-between items-center text-primary-foreground">
+          <h1 className="text-xl font-bold">Calendar App</h1>
+          <UserMenu />
         </div>
-      )}
-      
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-        <div className="flex-1 overflow-auto">
-          <CalendarGrid />
+        
+        {!isConnected && (
+          <div className="bg-yellow-100 p-2 text-yellow-800 text-center text-sm">
+            Using demo data. Connect to Supabase for persistent storage.
+          </div>
+        )}
+        
+        <div className="flex flex-1 overflow-hidden">
+          <Sidebar />
+          <div className="flex-1 overflow-auto">
+            <CalendarGrid />
+          </div>
         </div>
+        <EventModal />
       </div>
-      <EventModal />
-    </div>
+    </SidebarProvider>
   );
 };
 

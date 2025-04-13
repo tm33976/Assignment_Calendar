@@ -51,24 +51,19 @@ export const getTextColorForCategory = (category: string): string => {
 export const getGoalColor = (goalId: string): string => {
   switch (goalId) {
     case '1': // Be fit
-      return 'bg-goal-fit';
+      return 'bg-amber-100';
     case '2': // Academics
-      return 'bg-goal-academics';
+      return 'bg-blue-100';
     case '3': // LEARN
-      return 'bg-goal-learn';
+      return 'bg-purple-200';
     case '4': // Sports
-      return 'bg-goal-sports';
+      return 'bg-green-100';
     default:
-      return 'bg-gray-400';
+      return 'bg-gray-100';
   }
 };
 
 export const getGoalTextColor = (goalId: string): string => {
-  switch (goalId) {
-    case '2': // Academics
-    case '3': // LEARN
-      return 'text-white';
-    default:
-      return 'text-gray-800';
-  }
+  // All goals should have dark text for readability based on the light backgrounds
+  return 'text-gray-800';
 };
